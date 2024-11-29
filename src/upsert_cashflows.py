@@ -5,7 +5,6 @@ from moneyforward_selenium import MoneyForwardScraper
 from db import Cashflow, Budget, create_session
 
 
-UPDATE_MONTHS = 3  # 何ヶ月前までのデータを取得するか
 MONEYFORWARD_USER = os.environ["MONEYFORWARD_USER"]
 MONEYFORWARD_PASSWORD = os.environ["MONEYFORWARD_PASSWORD"]
 MONEYFORWARD_GROUP = os.environ["MONEYFORWARD_GROUP"]
@@ -16,6 +15,8 @@ DB_PORT = int(os.environ.get('DB_PORT', 3306))
 DB_NAME = os.environ.get('DB_NAME', 'mf_kakeibo')
 SELENIUM_HOST = os.environ.get("SELENIUM_HOST", "127.0.0.1")
 SELENIUM_PORT = os.environ.get("SELENIUM_PORT", "4444")
+
+UPDATE_MONTHS = os.environ.get("UPDATE_MONTHS", 3)  # 何ヶ月前までのデータを取得するか
 
 session = create_session(DB_HOST, DB_USER, DB_PASSWORD, DB_PORT, DB_NAME)
 today = datetime.date.today()
