@@ -6,7 +6,8 @@ name = "pypi"
 [packages]
 sqlalchemy = "*"
 pymysql = "*"
-moneyforward-selenium = {ref = "0.5.0", git = "git+https://github.com/kefi550/moneyforward_selenium"}
+python-dateutil = "*"
+moneyforward-selenium = {ref = "0.6.0", git = "git+https://github.com/kefi550/moneyforward_selenium"}
 
 [dev-packages]
 
