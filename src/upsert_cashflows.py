@@ -8,9 +8,9 @@ from db import Cashflow, Budget, create_session
 MONEYFORWARD_USER = os.environ["MONEYFORWARD_USER"]
 MONEYFORWARD_PASSWORD = os.environ["MONEYFORWARD_PASSWORD"]
 MONEYFORWARD_GROUP = os.environ["MONEYFORWARD_GROUP"]
-DB_HOST = os.environ.get('DB_HOST', 'localhost')
-DB_USER = os.environ['DB_USER']
-DB_PASSWORD = os.environ['DB_PASSWORD']
+MYSQL_HOST = os.environ.get('MYSQL_HOST', 'localhost')
+MYSQL_USER = os.environ['MYSQL_USER']
+MYSQL_PASSWORD = os.environ['MYSQL_PASSWORD']
 DB_PORT = int(os.environ.get('DB_PORT', 3306))
 DB_NAME = os.environ.get('DB_NAME', 'mf_kakeibo')
 SELENIUM_HOST = os.environ.get("SELENIUM_HOST", "127.0.0.1")
@@ -18,7 +18,7 @@ SELENIUM_PORT = os.environ.get("SELENIUM_PORT", "4444")
 
 UPDATE_MONTHS = os.environ.get("UPDATE_MONTHS", 3)  # 何ヶ月前までのデータを取得するか
 
-session = create_session(DB_HOST, DB_USER, DB_PASSWORD, DB_PORT, DB_NAME)
+session = create_session(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, DB_PORT, DB_NAME)
 today = datetime.date.today()
 for month in range(0, UPDATE_MONTHS):
     d = today - relativedelta(months=month)
