@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: moneyforward-to-mysql
+  namespace: kakeibo
+spec:
+  schedule: "0 9,15 * * *"  # JST 18時と24時
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: moneyforward-to-mysql
+              image: kefi550/moneyforward_to_mysql:0.1.1
+              env:
+                - name: MONEYFORWARD_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: moneyforward-to-mysql
+                      key: MONEYFORWARD_USER
+                - name: MONEYFORWARD_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: moneyforward-to-mysql
+                      key: MONEYFORWARD_PASSWORD
+                - name: MONEYFORWARD_GROUP
+                  valueFrom:
+                    secretKeyRef:
+                      name: moneyforward-to-mysql
+                      key: MONEYFORWARD_GROUP
+                - name: MYSQL_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: moneyforward-to-mysql
+                      key: MYSQL_USER
+                - name: MYSQL_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: moneyforward-to-mysql
+                      key: MYSQL_PASSWORD
+                - name: MYSQL_HOST
+                  value: mysql-cluster
+                - name: MYSQL_PORT
+                  value: "3306"
+                - name: SELENIUM_HOST
+                  value: selenium-grid-selenium-hub.selenium
+                - name: SELENIUM_PORT
+                  value: "4444"
+              imagePullPolicy: Always
+
