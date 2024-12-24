@@ -8,6 +8,7 @@ sqlalchemy = "*"
 pymysql = "*"
 python-dateutil = "*"
 moneyforward-selenium = {ref = "0.6.0", git = "git+https://github.com/kefi550/moneyforward_selenium"}
+cryptography = "*"
 
 [dev-packages]
 
