@@ -41,15 +41,6 @@ class Budget(Base):
     budget: Mapped[int] = mapped_column(nullable=False)
 
 
-class ExpenseRatio(Base):
-    __tablename__ = 'expense_ratio'
-
-    fiscal_year: Mapped[int] = mapped_column(primary_key=True)
-    fiscal_month: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(30), primary_key=True)
-    ratio: Mapped[float] = mapped_column(nullable=False)
-
-
 def create_database_if_not_exists(
     host,
     user,

@@ -7,7 +7,8 @@ name = "pypi"
 sqlalchemy = "*"
 pymysql = "*"
 python-dateutil = "*"
-moneyforward-selenium = {ref = "0.6.0", git = "git+https://github.com/kefi550/moneyforward_selenium"}
+moneyforward-selenium = {ref = "0.6.1", git = "git+https://github.com/kefi550/moneyforward_selenium"}
+# moneyforward-selenium = {file = "../moneyforward_selenium", editable = true}
 cryptography = "*"
 
 [dev-packages]
