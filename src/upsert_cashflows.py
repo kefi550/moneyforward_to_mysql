@@ -25,6 +25,13 @@ for month in range(0, UPDATE_MONTHS):
     # TODO: カレンダー月になってしまっているので正しく営業月にする
     fiscal_year = d.year
     fiscal_month = d.month
+
+    # finscal_year, fiscal_month の cash_flow をすべて削除
+    session.query(Cashflow).filter(
+        Cashflow.fiscal_year == fiscal_year,
+        Cashflow.fiscal_month == fiscal_month,
+        Cashflow.group == MONEYFORWARD_GROUP,
+    ).delete()
     # なんか月の切り替えにたまに失敗するので、月ごとにdriverをつくりなおす
     with MoneyForwardScraper(
         moneyforward_user=MONEYFORWARD_USER,
