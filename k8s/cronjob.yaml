@@ -12,7 +12,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: moneyforward-to-mysql
-              image: kefi550/moneyforward_to_mysql:0.1.1
+              image: kefi550/moneyforward_to_mysql:0.1.4
               env:
                 - name: MONEYFORWARD_USER
                   valueFrom:
