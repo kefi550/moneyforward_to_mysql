@@ -13,6 +13,7 @@ RUN pip install --no-cache-dir -r /requirements.lock
 
 FROM python:3.12-slim-bookworm AS runner
 WORKDIR /app
-COPY ./src ./src
+COPY ./src/upsert_cashflows.py ./src/upsert_cashflows.py
+COPY ./src/db.py ./src/db.py
 COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 ENTRYPOINT ["python", "src/upsert_cashflows.py"]

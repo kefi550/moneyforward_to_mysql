@@ -8,7 +8,7 @@ from db import Cashflow, Budget, create_session
 MONEYFORWARD_USER = os.environ["MONEYFORWARD_USER"]
 MONEYFORWARD_PASSWORD = os.environ["MONEYFORWARD_PASSWORD"]
 MONEYFORWARD_GROUP = os.environ["MONEYFORWARD_GROUP"]
-MYSQL_HOST = os.environ.get('MYSQL_HOST', 'localhost')
+MYSQL_HOST = os.environ.get('MYSQL_HOST', '127.0.0.1')
 MYSQL_USER = os.environ['MYSQL_USER']
 MYSQL_PASSWORD = os.environ['MYSQL_PASSWORD']
 DB_PORT = int(os.environ.get('MYSQL_PORT', 3306))

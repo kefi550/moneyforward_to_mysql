@@ -1,7 +1,7 @@
+import datetime
 import pymysql
 from sqlalchemy import create_engine, String, Date, BigInteger
 from sqlalchemy.orm import mapped_column, Mapped, Session
-from datetime import date
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -14,7 +14,7 @@ class Cashflow(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=False)
     group: Mapped[str] = mapped_column(String(100), nullable=False)
     calc: Mapped[bool] = mapped_column(nullable=False)
-    date: Mapped[date] = mapped_column(Date, nullable=False)
+    date: Mapped[datetime.date] = mapped_column(Date, nullable=False)
     fiscal_year: Mapped[int] = mapped_column(nullable=False)
     fiscal_month: Mapped[int] = mapped_column(nullable=False)
     # 内容
