@@ -39,6 +39,7 @@ for month in range(0, UPDATE_MONTHS):
         selenium_host=SELENIUM_HOST,
         selenium_port=SELENIUM_PORT,
         moneyforward_group_name=MONEYFORWARD_GROUP,
+        selenium_chrome_profile_path="/tmp/chrome-profile/moneyforward-selenium",
     ) as mf:
         # 入出金の更新
         cashflows = mf.get_cashflows_of_fiscal_month(fiscal_year=fiscal_year, fiscal_month=fiscal_month)
@@ -67,6 +68,7 @@ with MoneyForwardScraper(
     selenium_host=SELENIUM_HOST,
     selenium_port=SELENIUM_PORT,
     moneyforward_group_name=MONEYFORWARD_GROUP,
+    selenium_chrome_profile_path="/tmp/chrome-profile/moneyforward-selenium",
 ) as mf:
     budgets = mf.get_budgets_of_group()
     for budget in budgets:
