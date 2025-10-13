@@ -15,17 +15,12 @@ DB_PORT = int(os.environ.get('MYSQL_PORT', 3306))
 DB_NAME = os.environ.get('DB_NAME', 'mf_kakeibo')
 SELENIUM_HOST = os.environ.get("SELENIUM_HOST", "127.0.0.1")
 SELENIUM_PORT = os.environ.get("SELENIUM_PORT", "4444")
-
-UPDATE_MONTHS = os.environ.get("UPDATE_MONTHS", 3)  # 何ヶ月前までのデータを取得するか
+UPDATE_MONTHS = int(os.environ.get("UPDATE_MONTHS", 3))  # 何ヶ月前までのデータを取得するか
 
 session = create_session(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, DB_PORT, DB_NAME)
-today = datetime.date.today()
-for month in range(0, UPDATE_MONTHS):
-    d = today - relativedelta(months=month)
-    # TODO: カレンダー月になってしまっているので正しく営業月にする
-    fiscal_year = d.year
-    fiscal_month = d.month
 
+
+def update_cashflows_of_fiscal_month(fiscal_year: int, fiscal_month: int):
     # finscal_year, fiscal_month の cash_flow をすべて削除
     session.query(Cashflow).filter(
         Cashflow.fiscal_year == fiscal_year,
@@ -59,25 +54,37 @@ for month in range(0, UPDATE_MONTHS):
                 memo=cashflow.memo,
             )
             session.merge(c)
-            session.commit()
+        session.commit()
+
 
 # 予算の更新
-with MoneyForwardScraper(
-    moneyforward_user=MONEYFORWARD_USER,
-    moneyforward_password=MONEYFORWARD_PASSWORD,
-    selenium_host=SELENIUM_HOST,
-    selenium_port=SELENIUM_PORT,
-    moneyforward_group_name=MONEYFORWARD_GROUP,
-    selenium_chrome_profile_path="/tmp/chrome-profile/moneyforward-selenium",
-) as mf:
-    budgets = mf.get_budgets_of_group()
-    for budget in budgets:
-        b = Budget(
-            fiscal_year=today.year,
-            fiscal_month=today.month,
-            group=MONEYFORWARD_GROUP,
-            lcategory=budget.lcategory,
-            budget=budget.budget,
-        )
-        session.merge(b)
+def update_budget(fiscal_year: int, fiscal_month: int):
+    with MoneyForwardScraper(
+        moneyforward_user=MONEYFORWARD_USER,
+        moneyforward_password=MONEYFORWARD_PASSWORD,
+        selenium_host=SELENIUM_HOST,
+        selenium_port=SELENIUM_PORT,
+        moneyforward_group_name=MONEYFORWARD_GROUP,
+        selenium_chrome_profile_path="/tmp/chrome-profile/moneyforward-selenium",
+    ) as mf:
+        budgets = mf.get_budgets_of_group()
+        for budget in budgets:
+            b = Budget(
+                fiscal_year=fiscal_year,
+                fiscal_month=fiscal_month,
+                group=MONEYFORWARD_GROUP,
+                lcategory=budget.lcategory,
+                budget=budget.budget,
+            )
+            session.merge(b)
         session.commit()
+
+
+today = datetime.date.today()
+for month in range(0, UPDATE_MONTHS):
+    d = today - relativedelta(months=month)
+    # TODO: カレンダー月になってしまっているので正しく営業月にする
+    fiscal_year = d.year
+    fiscal_month = d.month
+    update_cashflows_of_fiscal_month(fiscal_year, fiscal_month)
+update_budget(today.year, today.month)
